@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Historial APGAR</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-4">
+      <a class="navbar-brand" href="{{ url_for('index') }}">APGAR Neonatología</a>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Registro</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <h1 class="mb-3">Historial completo de evaluaciones</h1>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Ritmo</th>
+            <th>Respiración</th>
+            <th>Tono</th>
+            <th>Reflejos</th>
+            <th>Color</th>
+            <th>Puntaje</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in evaluaciones %}
+          <tr>
+            <td>{{ e.fecha.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ e.nombre }}</td>
+            <td>{{ e.ritmo_cardiaco }}</td>
+            <td>{{ e.esfuerzo_respiratorio }}</td>
+            <td>{{ e.tono_muscular }}</td>
+            <td>{{ e.reflejos }}</td>
+            <td>{{ e.color }}</td>
+            <td>{{ e.puntaje_total }}</td>
+            <td>{{ e.clasificacion }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
