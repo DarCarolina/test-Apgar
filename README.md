@@ -1,61 +1,65 @@
-# test-Apgar
+# Sistema de Evaluación APGAR Premium 🏥
 
-Sistema de Evaluación APGAR para Neonatología
+Este proyecto es una aplicación web moderna para calcular y registrar el Test APGAR en neonatología. Utiliza **FastAPI** para el backend, **PostgreSQL** para la persistencia de datos y **React + Vite** para una interfaz de usuario fluida y elegante.
 
-## 📦 Stack Tecnológico
+## 🚀 Requisitos Previos
 
-- Python 3.10+
-- NiceGUI
-- SQLAlchemy (code-first)
-- SQLite (base de datos local `apgar.db`)
+- **Python 3.10+**
+- **Node.js y npm**
+- **PostgreSQL** (Puerto: 5432, Usuario: `postgres`, Password: `postgrest123`)
 
-## ▶️ Ejecución local con NiceGUI
+## 🛠️ Configuración Inicial
 
-1. Clonar el repositorio:
-   - `git clone <URL_del_repo>`
-   - `cd test-Apgar`
+### 1. Clonar e Ingresar al Directorio
+```powershell
+cd "c:\Users\Danilo\Documents\DARLYNE\3BGU\PRUEBA UNIDAD 1\test-Apgar"
+```
 
-2. Crear e ingresar al entorno virtual (recomendado):
-   - Windows:
-     - `python -m venv venv`
-     - `venv\\Scripts\\activate`
-   - Linux/macOS:
-     - `python3 -m venv venv`
-     - `source venv/bin/activate`
+### 2. Entorno Virtual (VENV)
+Para inicializar tu entorno de trabajo cada vez que comiences:
+```powershell
+# Crear el entorno (solo la primera vez)
+python -m venv venv
 
-3. Instalar dependencias:
-   - `pip install -r requirements.txt`
+# ACTIVAR el entorno (cada vez que trabajes)
+.\venv\Scripts\activate
+```
 
-4. Ejecutar la aplicación:
-   - `python app.py`
+### 3. Instalar Dependencias
+```powershell
+# Backend
+pip install -r backend/requirements.txt
 
-5. Abrir en el navegador:
-   - `http://127.0.0.1:8080`
+# Frontend
+cd frontend
+npm install
+cd ..
+```
 
-## 🧪 Ejecución de pruebas
+## ▶️ Ejecución de la Aplicación
 
-- `pytest -q`
+Debes tener dos terminales abiertas con el entorno virtual activado en el caso del backend:
 
-## 🗄️ Base de datos (Code-first)
+### Terminal 1: Backend (FastAPI)
+```powershell
+.\venv\Scripts\activate
+cd backend
+uvicorn app.main:app --reload
+```
+La API estará disponible en: `http://localhost:8000`
 
-- El archivo SQLite se genera automáticamente en `apgar.db`.
-- Modelo `Evaluacion` en `app.py`.
-- Al iniciar, se ejecuta `db.create_all()` para crear tablas automáticamente.
+### Terminal 2: Frontend (Vite)
+```powershell
+cd frontend
+npm run dev
+```
+La aplicación estará disponible en: `http://localhost:3000`
 
-## 🛠️ Despliegue en otra computadora
+## 🗄️ Base de Datos
+La aplicación se conecta automáticamente a PostgreSQL. Asegúrate de que el servicio de Postgres esté corriendo en el puerto 5432 con las credenciales configuradas en `backend/app/database.py`.
 
-1. Copiar el proyecto o clonar desde repositorio.
-2. Instalar Python 3.10+.
-3. Seguir pasos de instalación anteriores (entorno virtual + `pip install`).
-4. Ejecutar `python app.py`.
-5. Asegurarse de que el puerto 8080 esté disponible.
-
-## 🧩 Funcionalidades incluidas
-
-- Registro del nombre del bebé.
-- Ingreso de los 5 parámetros APGAR (0-2).
-- Validación de datos en el servidor.
-- Cálculo de puntaje y clasificación automática.
-- Almacenamiento de evaluaciones en SQLite.
-- Visualización de historial (ruta `/historial`).
-
+## ✨ Características
+- **Interfaz Premium**: Diseño basado en Glassmorphism con efectos de transparencia y desenfoque.
+- **Cálculo en Tiempo Real**: El puntaje y la clasificación se actualizan mientras seleccionas los parámetros.
+- **Persistencia**: Todos los registros se guardan con fecha y hora en PostgreSQL.
+- **Historial Interactivo**: Revisa las evaluaciones anteriores de forma instantánea.
