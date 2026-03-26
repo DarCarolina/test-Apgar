@@ -1,6 +1,8 @@
 # Sistema de Evaluación APGAR Premium 🏥
 
-Este proyecto es una aplicación web moderna para calcular y registrar el Test APGAR en neonatología. Utiliza **FastAPI** para el backend, **PostgreSQL** para la persistencia de datos y **React + Vite** para una interfaz de usuario fluida y elegante.
+Este proyecto es una aplicación web moderna para calcular y registrar el Test APGAR en neonatología. Diseñado específicamente para profesionales de la salud, permite una evaluación rápida y precisa del estado del recién nacido.
+
+El sistema ofrece una solución digital a la problemática de la gestión de datos en neonatología, permitiendo un seguimiento eficiente de cada paciente.
 
 ## 🚀 Requisitos Previos
 
@@ -63,3 +65,14 @@ La aplicación se conecta automáticamente a PostgreSQL. Asegúrate de que el se
 - **Cálculo en Tiempo Real**: El puntaje y la clasificación se actualizan mientras seleccionas los parámetros.
 - **Persistencia**: Todos los registros se guardan con fecha y hora en PostgreSQL.
 - **Historial Interactivo**: Revisa las evaluaciones anteriores de forma instantánea.
+
+---
+
+## 🤖 Desarrollo con IA
+Este proyecto ha sido desarrollado con la asistencia de **Antigravity**, una herramienta de IA avanzada de Google DeepMind.
+
+La IA ha sido fundamental en:
+- **Diseño de Arquitectura**: Separación limpia entre el backend de alto rendimiento (FastAPI) y el frontend reactivo.
+- **Implementación de Lógica**: Programación precisa de los algoritmos de cálculo APGAR y validación de datos.
+- **Estética Premium**: Aplicación de principios de diseño modernos como Glassmorphism y micro-animaciones.
+- **Documentación**: Generación de guías de configuración y requerimientos.

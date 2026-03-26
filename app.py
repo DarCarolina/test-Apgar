@@ -2,7 +2,7 @@ from nicegui import ui
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+from datetime import datetime, timezone
 
 DATABASE_URL = 'sqlite:///apgar.db'
 engine = create_engine(DATABASE_URL, connect_args={'check_same_thread': False})
@@ -20,7 +20,7 @@ class Evaluacion(Base):
     color = Column(Integer, nullable=False)
     puntaje_total = Column(Integer, nullable=False)
     clasificacion = Column(String(64), nullable=False)
-    fecha = Column(DateTime, default=datetime.utcnow)
+    fecha = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"<Evaluacion {self.nombre} {self.puntaje_total}>"
