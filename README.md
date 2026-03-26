@@ -1,29 +1,26 @@
-# Sistema de Evaluación APGAR Premium 🏥
+# Expediente Neonatal Unificado Premium 🏥
 
-Este proyecto es una aplicación web moderna para calcular y registrar el Test APGAR en neonatología. Diseñado específicamente para profesionales de la salud, permite una evaluación rápida y precisa del estado del recién nacido.
-
-El sistema ofrece una solución digital a la problemática de la gestión de datos en neonatología, permitiendo un seguimiento eficiente de cada paciente.
+Este proyecto es una aplicación web profesional para la gestión, evaluación y análisis del recién nacido. Permite un seguimiento clínico longitudinal mediante los tests de APGAR y Silverman-Anderson, integrados en un flujo de trabajo moderno y eficiente.
 
 ## 🚀 Requisitos Previos
 
 - **Python 3.10+**
 - **Node.js y npm**
-- **PostgreSQL** (Puerto: 5432, Usuario: `postgres`, Password: `postgrest123`)
+- **PostgreSQL** (Puerto: 5432, Usuario: `postgres`, Password: `postgresql123`)
 
 ## 🛠️ Configuración Inicial
 
 ### 1. Clonar e Ingresar al Directorio
 ```powershell
-cd "c:\Users\Danilo\Documents\DARLYNE\3BGU\PRUEBA UNIDAD 1\test-Apgar"
+cd "c:\Proyectos BC3 U5\test-Apgar"
 ```
 
 ### 2. Entorno Virtual (VENV)
-Para inicializar tu entorno de trabajo cada vez que comiences:
 ```powershell
 # Crear el entorno (solo la primera vez)
 python -m venv venv
 
-# ACTIVAR el entorno (cada vez que trabajes)
+# ACTIVAR el entorno
 .\venv\Scripts\activate
 ```
 
@@ -40,39 +37,30 @@ cd ..
 
 ## ▶️ Ejecución de la Aplicación
 
-Debes tener dos terminales abiertas con el entorno virtual activado en el caso del backend:
-
 ### Terminal 1: Backend (FastAPI)
 ```powershell
 .\venv\Scripts\activate
 cd backend
 uvicorn app.main:app --reload
 ```
-La API estará disponible en: `http://localhost:8000`
+API: `http://localhost:8000` | Docs: `http://localhost:8000/docs`
 
 ### Terminal 2: Frontend (Vite)
 ```powershell
 cd frontend
 npm run dev
 ```
-La aplicación estará disponible en: `http://localhost:3000`
+Aplicación: `http://localhost:3000`
 
-## 🗄️ Base de Datos
-La aplicación se conecta automáticamente a PostgreSQL. Asegúrate de que el servicio de Postgres esté corriendo en el puerto 5432 con las credenciales configuradas en `backend/app/database.py`.
-
-## ✨ Características
-- **Interfaz Premium**: Diseño basado en Glassmorphism con efectos de transparencia y desenfoque.
-- **Cálculo en Tiempo Real**: El puntaje y la clasificación se actualizan mientras seleccionas los parámetros.
-- **Persistencia**: Todos los registros se guardan con fecha y hora en PostgreSQL.
-- **Historial Interactivo**: Revisa las evaluaciones anteriores de forma instantánea.
+## ✨ Características Profesionales
+- **Expediente Único**: Agrupa todas las evaluaciones de un mismo neonato.
+- **Stepper de 4 Pasos**: Interfaz guiada (Nacimiento -> APGAR -> Silverman -> Resumen).
+- **Análisis de Riesgo**: Detección automática de bajo peso, prematuridad y distrés respiratorio.
+- **Gráficos de Evolución**: Visualización de la recuperación neonatal en tiempo real.
+- **Diseño Glassmorphism**: Estética moderna, limpia y profesional.
 
 ---
 
 ## 🤖 Desarrollo con IA
-Este proyecto ha sido desarrollado con la asistencia de **Antigravity**, una herramienta de IA avanzada de Google DeepMind.
-
-La IA ha sido fundamental en:
-- **Diseño de Arquitectura**: Separación limpia entre el backend de alto rendimiento (FastAPI) y el frontend reactivo.
-- **Implementación de Lógica**: Programación precisa de los algoritmos de cálculo APGAR y validación de datos.
-- **Estética Premium**: Aplicación de principios de diseño modernos como Glassmorphism y micro-animaciones.
-- **Documentación**: Generación de guías de configuración y requerimientos.
+Este proyecto ha sido desarrollado y optimizado por **Antigravity** (Google DeepMind).
+La IA permitió transformar un calculador básico en una plataforma clínica integral, asegurando una arquitectura escalable y una experiencia de usuario de nivel hospitalario.

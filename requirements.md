@@ -1,35 +1,38 @@
-# Documentación de Requerimientos - Sistema de Evaluación APGAR
+# Documentación de Requerimientos - Expediente Neonatal Unificado
 
 ## 📌 Datos del Proyecto
-* **Nombre del Proyecto:** Sistema de Evaluación APGAR para Neonatología
-* **Carrera Objetivo:** Medicina / Neonatología / Enfermería
+* **Nombre del Proyecto:** Expediente Neonatal Unificado (Unified Neonatal Record)
+* **Status:** Implementado (Versión Profesional)
 
 ## ❓ Problemática Identificada
-En el entorno de neonatología, la rapidez y precisión en la evaluación del recién nacido son críticas. El Test APGAR es el estándar de oro, pero su cálculo manual y el registro en papel pueden estar sujetos a errores o pérdida de información. Existe la necesidad de una herramienta digital centralizada que permita:
-1.  Realizar el cálculo de forma automática e instantánea.
-2.  Reducir el margen de error humano en la clasificación.
-3.  Mantener un historial persistente y accesible de las evaluaciones realizadas.
+En el entorno de neonatología, la rapidez y precisión en la evaluación del recién nacido son críticas. El Test APGAR es el estándar, pero una evaluación aislada no es suficiente para un seguimiento clínico de calidad. Se identificó la necesidad de un sistema que permita:
+1.  **Seguimiento Longitudinal**: Registrar múltiples evaluaciones APGAR en el tiempo (1m, 5m, 10m).
+2.  **Evaluación Respiratoria**: Integrar el Test de Silverman-Anderson para detectar distrés respiratorio.
+3.  **Análisis de Riesgo**: Identificar automáticamente neonatos con bajo peso o prematuridad.
+4.  **Consolidación**: Mantener un expediente clínico único por paciente.
 
-## 🚀 Funcionalidades Principales (MVP)
-*   **Interfaz de Entrada:** Formulario interactivo para ingresar el nombre del neonato y calificar los 5 parámetros (Ritmo cardíaco, Esfuerzo respiratorio, Tono muscular, Reflejos, Color).
-*   **Cálculo Automático:** Procesamiento en tiempo real del puntaje total (0-10).
-*   **Clasificación Dinámica:** Categorización automática según el puntaje (Crítico, Moderado, Bien).
-*   **Persistencia de Datos:** Almacenamiento seguro de cada evaluación con fecha y hora.
-*   **Visualización de Historial:** Lista interactiva para revisar todas las evaluaciones anteriores.
+## 🚀 Funcionalidades Implementadas (Versión Actual)
+*   **Expediente Neonatal Unificado**: Modelo de datos relacional que agrupa todas las evaluaciones de un mismo neonato.
+*   **Stepper Interactivo de 4 Pasos**:
+    1.  **Datos de Nacimiento**: Registro de nombre, peso, edad gestacional, sexo y tipo de parto.
+    2.  **Línea de Tiempo APGAR**: Evaluación de ritmo, esfuerzo, tono, reflejos y color con gráfico de tendencia en tiempo real.
+    3.  **Test de Silverman-Anderson**: Evaluación de disociación, tiraje, retracción, aleteo y quejido.
+    4.  **Análisis y Resumen**: Consolidado clínico con cálculos automáticos y notas.
+*   **Motor de Reglas Clínicas**: Generación automática de alertas:
+    *   ⚠️ **Bajo Peso**: < 2500g.
+    *   ⏰ **Pretérmino**: < 37 semanas.
+    *   🫁 **Dificultad Respiratoria**: Score Silverman > 0.
+*   **Visualización de Datos**: Gráficos dinámicos con `recharts` para observar la recuperación neonatal.
+*   **Historial Clínico**: Panel lateral para búsqueda y revisión de expedientes guardados.
 
 ## 🛠️ Stack Tecnológico Utilizado
-### Opción Premium (Recomendada)
-*   **Frontend:** React + Vite + Vanilla CSS (Glassmorphism design).
-*   **Backend:** FastAPI (Python).
-*   **Base de Datos:** PostgreSQL (con SQLAlchemy ORM).
+*   **Frontend**: React + Vite + Vanilla CSS (Glassmorphism design).
+*   **Backend**: FastAPI (Python 3.10+).
+*   **Base de Datos**: PostgreSQL (SQLAlchemy v2).
+*   **Visualización**: Lucide React (Iconos) + Recharts (Gráficos).
 
-### Opción Ligera (NiceGUI)
-*   **Interfaz:** NiceGUI (basado en Python).
-*   **Base de Datos:** SQLite.
-
-## 🤖 Uso de Inteligencia Artificial
-Para el desarrollo de este proyecto se utilizó **Antigravity** (una herramienta de IA avanzada de Google DeepMind). La IA ayudó en:
-*   **Arquitectura:** Diseño de la estructura modular Backend/Frontend.
-*   **Automatización:** Generación de modelos de base de datos y esquemas de validación.
-*   **UI/UX:** Creación de una interfaz moderna con efectos visuales premium (transparencias y animaciones).
-*   **Documentación:** Estructuración de este archivo y del manual de usuario.
+## 🤖 Desarrollo con IA
+Este proyecto fue desarrollado y potenciado por **Antigravity** (Google DeepMind). La IA permitió transformar un calculador simple en una herramienta clínica de nivel hospitalario en tiempo récord, asegurando:
+- Arquitectura robusta y escalable.
+- UX fluida y estética premium.
+- Lógica médica validada mediante reglas de negocio.
