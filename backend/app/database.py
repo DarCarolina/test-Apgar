@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 # Configuración de la base de datos PostgreSQL
 # Los datos fueron proporcionados por el usuario
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgrest123@localhost:5432/postgres"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgresql123@localhost:5432/postgres"
 
 # Crear el motor de la base de datos
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

@@ -20,21 +20,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Bienvenido a la API del Test APGAR"}
+@app.get("/casos/", response_model=List[schemas.CasoNeonatalResponse])
+def leer_casos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.get_casos(db, skip=skip, limit=limit)
 
-@app.post("/evaluaciones/", response_model=schemas.EvaluacionResponse)
-def crear_evaluacion(evaluacion: schemas.EvaluacionCreate, db: Session = Depends(get_db)):
-    """
-    Crea una nueva evaluación APGAR.
-    """
-    return crud.crear_evaluacion(db=db, evaluacion=evaluacion)
+@app.get("/casos/{caso_id}", response_model=schemas.CasoNeonatalResponse)
+def leer_caso(caso_id: int, db: Session = Depends(get_db)):
+    db_caso = crud.get_caso(db, caso_id=caso_id)
+    if db_caso is None:
+        raise HTTPException(status_code=404, detail="Caso no encontrado")
+    return db_caso
 
-@app.get("/evaluaciones/", response_model=List[schemas.EvaluacionResponse])
-def leer_evaluaciones(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    """
-    Obtiene el historial de evaluaciones.
-    """
-    evaluaciones = crud.get_evaluaciones(db, skip=skip, limit=limit)
-    return evaluaciones
+@app.post("/casos/", response_model=schemas.CasoNeonatalResponse)
+def crear_caso(caso: schemas.CasoNeonatalCreate, db: Session = Depends(get_db)):
+    return crud.crear_caso(db=db, caso=caso)
+
+@app.post("/casos/{caso_id}/apgar/", response_model=schemas.EvaluacionAPGARResponse)
+def agregar_apgar_a_caso(caso_id: int, apgar: schemas.EvaluacionAPGARCreate, db: Session = Depends(get_db)):
+    return crud.agregar_apgar(db=db, caso_id=caso_id, apgar_in=apgar)
