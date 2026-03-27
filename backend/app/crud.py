@@ -1,10 +1,8 @@
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 from . import models, schemas
 
-def calcular_clasificacion(puntaje: int) -> str:
-    """
-    Calcula la clasificación basada en el puntaje total.
-    """
+def calcular_clasificacion_apgar(puntaje: int) -> str:
     if puntaje <= 3:
         return 'Crítico (0-3)'
     elif puntaje <= 6:
@@ -22,43 +20,86 @@ def calcular_diagnostico(puntaje: int) -> str:
     else:
         return "El recién nacido se encuentra en excelentes condiciones de salud y no requiere asistencia inmediata."
 
-def get_evaluacion(db: Session, evaluacion_id: int):
-    return db.query(models.Evaluacion).filter(models.Evaluacion.id == evaluacion_id).first()
+def calcular_clasificacion_silverman(puntaje: int) -> str:
+    if puntaje == 0:
+        return 'Sin dificultad'
+    elif puntaje <= 3:
+        return 'Leve'
+    elif puntaje <= 6:
+        return 'Moderada'
+    return 'Severa'
 
-def get_evaluaciones(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Evaluacion).order_by(models.Evaluacion.fecha_registro.desc()).offset(skip).limit(limit).all()
+# --- CASOS ---
+def get_casos(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.CasoNeonatal).order_by(models.CasoNeonatal.fecha_nacimiento.desc()).offset(skip).limit(limit).all()
 
-def crear_evaluacion(db: Session, evaluacion: schemas.EvaluacionCreate):
-    """
-    Crea un registro de evaluación, calculando el puntaje y la clasificación.
-    """
-    # Sumar todos los parámetros de la evaluación
-    puntaje = (
-        evaluacion.ritmo_cardiaco +
-        evaluacion.esfuerzo_respiratorio +
-        evaluacion.tono_muscular +
-        evaluacion.reflejos +
-        evaluacion.color
+def get_caso(db: Session, caso_id: int):
+    return db.query(models.CasoNeonatal).filter(models.CasoNeonatal.id == caso_id).first()
+
+def crear_caso(db: Session, caso: schemas.CasoNeonatalCreate):
+    # 1. Crear el caso base
+    db_caso = models.CasoNeonatal(
+        nombre_neonato=caso.nombre_neonato,
+        sexo=caso.sexo,
+        peso_gramos=caso.peso_gramos,
+        edad_gestacional_semanas=caso.edad_gestacional_semanas,
+        edad_gestacional_dias=caso.edad_gestacional_dias,
+        tipo_parto=caso.tipo_parto,
+        notas=caso.notas,
+        fecha_nacimiento=datetime.now(timezone.utc)
     )
-    
-    # Obtener clasificación y diagnóstico
-    clasificacion = calcular_clasificacion(puntaje)
-    diagnostico = calcular_diagnostico(puntaje)
-    
-    # Crear la instancia del modelo
-    db_evaluacion = models.Evaluacion(
-        nombre_neonato=evaluacion.nombre_neonato,
-        ritmo_cardiaco=evaluacion.ritmo_cardiaco,
-        esfuerzo_respiratorio=evaluacion.esfuerzo_respiratorio,
-        tono_muscular=evaluacion.tono_muscular,
-        reflejos=evaluacion.reflejos,
-        color=evaluacion.color,
-        puntaje_total=puntaje,
-        clasificacion=clasificacion,
-        diagnostico=diagnostico
-    )
-    
-    db.add(db_evaluacion)
+    db.add(db_caso)
+    db.flush() # Para obtener el ID
+
+    # 2. Agregar evaluaciones APGAR iniciales
+    for apgar_in in caso.evaluaciones_apgar:
+        puntaje = (
+            apgar_in.ritmo_cardiaco + apgar_in.esfuerzo_respiratorio +
+            apgar_in.tono_muscular + apgar_in.reflejos + apgar_in.color
+        )
+        data = apgar_in.model_dump()
+        db_apgar = models.EvaluacionAPGAR(
+            **data,
+            caso_id=db_caso.id,
+            puntaje_total=puntaje,
+            clasificacion=calcular_clasificacion_apgar(puntaje),
+            diagnostico=calcular_diagnostico(puntaje)
+        )
+        db.add(db_apgar)
+
+    # 3. Agregar evaluación Silverman si existe
+    if caso.evaluacion_silverman:
+        sil_in = caso.evaluacion_silverman
+        puntaje = (
+            sil_in.disociacion_toraco_abdominal + sil_in.tiraje_intercostal +
+            sil_in.retraccion_xifoidea + sil_in.aleteo_nasal + sil_in.quejido_espiratorio
+        )
+        data_sil = sil_in.model_dump()
+        db_sil = models.EvaluacionSilverman(
+            **data_sil,
+            caso_id=db_caso.id,
+            puntaje_total=puntaje,
+            clasificacion=calcular_clasificacion_silverman(puntaje)
+        )
+        db.add(db_sil)
+
     db.commit()
-    db.refresh(db_evaluacion)
-    return db_evaluacion
+    db.refresh(db_caso)
+    return db_caso
+
+# --- AGREGAR EVALUACIONES A CASO EXISTENTE ---
+def agregar_apgar(db: Session, caso_id: int, apgar_in: schemas.EvaluacionAPGARCreate):
+    puntaje = (
+        apgar_in.ritmo_cardiaco + apgar_in.esfuerzo_respiratorio +
+        apgar_in.tono_muscular + apgar_in.reflejos + apgar_in.color
+    )
+    db_apgar = models.EvaluacionAPGAR(
+        **apgar_in.model_dump(),
+        caso_id=caso_id,
+        puntaje_total=puntaje,
+        clasificacion=calcular_clasificacion_apgar(puntaje),
+        diagnostico=calcular_diagnostico(puntaje)
+    )
+    db.add(db_apgar)
+    db.commit()
+    return db_apgar
