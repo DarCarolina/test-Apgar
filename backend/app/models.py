@@ -22,6 +22,7 @@ class Evaluacion(Base):
     # Resultados calculados
     puntaje_total = Column(Integer, nullable=False)
     clasificacion = Column(String, nullable=False)
+    diagnostico = Column(String, nullable=True)
     
     # Fecha de registro
     fecha_registro = Column(DateTime, default=lambda: datetime.now(timezone.utc))

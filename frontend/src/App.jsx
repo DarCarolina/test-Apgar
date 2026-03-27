@@ -94,7 +94,10 @@ function App() {
     <div className="app-container">
       {/* Columna de Formulario */}
       <div className="card">
-        <h1>🏥 Test APGAR</h1>
+        <div className="logo-container">
+          <img src="/logo.png" alt="Logo Neonato" className="app-logo" />
+        </div>
+        <h1>Test APGAR</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
           Evaluación rápida del estado de salud del recién nacido.
         </p>
@@ -169,7 +172,12 @@ function App() {
 
         {resultadoActual && (
           <div className={`result-badge ${getBadgesClass(resultadoActual.puntaje_total)}`}>
-            Último resultado: {resultadoActual.puntaje_total} - {resultadoActual.clasificacion}
+            <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+              Último resultado: {resultadoActual.puntaje_total} - {resultadoActual.clasificacion}
+            </div>
+            <p style={{ fontSize: '0.9rem', fontWeight: 400, fontStyle: 'italic', lineHeight: '1.4' }}>
+              <strong>Diagnóstico:</strong> {resultadoActual.diagnostico}
+            </p>
           </div>
         )}
       </div>

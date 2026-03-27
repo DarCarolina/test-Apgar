@@ -27,6 +27,7 @@ class EvaluacionResponse(EvaluacionBase):
     id: int
     puntaje_total: int
     clasificacion: str
+    diagnostico: Optional[str]
     fecha_registro: datetime
 
     class Config:

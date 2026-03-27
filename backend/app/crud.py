@@ -11,6 +11,17 @@ def calcular_clasificacion(puntaje: int) -> str:
         return 'Moderado (4-6)'
     return 'Bien (7-10)'
 
+def calcular_diagnostico(puntaje: int) -> str:
+    """
+    Genera un diagnóstico clínico basado en el puntaje APGAR.
+    """
+    if puntaje <= 3:
+        return "El recién nacido presenta una depresión severa. Requiere maniobras de reanimación neonatal inmediata para salvar su vida."
+    elif puntaje <= 6:
+        return "El recién nacido presenta una depresión moderada. Puede requerir asistencia respiratoria, estimulación o administración de oxígeno."
+    else:
+        return "El recién nacido se encuentra en excelentes condiciones de salud y no requiere asistencia inmediata."
+
 def get_evaluacion(db: Session, evaluacion_id: int):
     return db.query(models.Evaluacion).filter(models.Evaluacion.id == evaluacion_id).first()
 
@@ -30,8 +41,9 @@ def crear_evaluacion(db: Session, evaluacion: schemas.EvaluacionCreate):
         evaluacion.color
     )
     
-    # Obtener clasificación en español
+    # Obtener clasificación y diagnóstico
     clasificacion = calcular_clasificacion(puntaje)
+    diagnostico = calcular_diagnostico(puntaje)
     
     # Crear la instancia del modelo
     db_evaluacion = models.Evaluacion(
@@ -42,7 +54,8 @@ def crear_evaluacion(db: Session, evaluacion: schemas.EvaluacionCreate):
         reflejos=evaluacion.reflejos,
         color=evaluacion.color,
         puntaje_total=puntaje,
-        clasificacion=clasificacion
+        clasificacion=clasificacion,
+        diagnostico=diagnostico
     )
     
     db.add(db_evaluacion)
